@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Scanner App - Scan Result</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            padding: 2rem;
+            text-align: center;
+        }
+        h1 {
+            color: #007bff;
+            margin-bottom: 1rem;
+        }
+        p {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+        .result-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        .success {
+            color: #28a745;
+        }
+        .failure {
+            color: #dc3545;
+        }
+        #points {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #28a745;
+            margin-bottom: 1.5rem;
+        }
+        .button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        #logout-link {
+            display: inline-block;
+            margin-top: 1rem;
+            color: #007bff;
+            text-decoration: none;
+        }
+        #logout-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Scan Result</h1>
+        <div id="result-content">
+            <!-- Content will be dynamically inserted here based on the scan result -->
+        </div>
+        <a href="/scan_qr" class="button">Scan Another QR Code</a>
+        <a href="/logout" id="logout-link">Logout</a>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const success = urlParams.get('success') === 'true';
+        const resultContent = document.getElementById('result-content');
+
+        if (success) {
+            resultContent.innerHTML = `
+                <div class="result-icon success">✓</div>
+                <p>QR Code scanned successfully!</p>
+                <p id="points">+10 points</p>
+            `;
+        } else {
+            resultContent.innerHTML = `
+                <div class="result-icon failure">✗</div>
+                <p>Invalid QR Code. Please try again.</p>
+            `;
+        }
+    </script>
+</body>
+</html>

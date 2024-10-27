@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Scanner App - Admin Panel</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            padding: 2rem;
+        }
+        h1 {
+            color: #007bff;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        .qr-list {
+            margin-bottom: 2rem;
+        }
+        .qr-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        .qr-hash {
+            font-family: monospace;
+            color: #666;
+        }
+        .button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        .button.delete {
+            background-color: #dc3545;
+        }
+        .button.delete:hover {
+            background-color: #c82333;
+        }
+        form {
+            display: flex;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+        #logout-link {
+            display: block;
+            text-align: center;
+            margin-top: 1rem;
+            color: #007bff;
+            text-decoration: none;
+        }
+        #logout-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Admin Panel - QR Code Management</h1>
+        <div class="qr-list">
+            {% for qr_code in qr_codes %}
+            <div class="qr-item">
+                <span class="qr-hash">{{ qr_code[0] }}</span>
+                <form action="{{ url_for('admin') }}" method="post">
+                    <input type="hidden" name="action" value="delete">
+                    <input type="hidden" name="hash" value="{{ qr_code[0] }}">
+                    <button type="submit" class="button delete">Delete</button>
+                </form>
+            </div>
+            {% endfor %}
+        </div>
+        <form action="{{ url_for('admin') }}" method="post">
+            <input type="hidden" name="action" value="add">
+            <button type="submit" class="button">Generate New QR Code</button>
+        </form>
+        <a href="{{ url_for('logout') }}" id="logout-link">Logout</a>
+    </div>
+</body>
+</html>
